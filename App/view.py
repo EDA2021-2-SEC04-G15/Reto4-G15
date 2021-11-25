@@ -27,6 +27,8 @@ from DISClib.ADT import list as lt
 assert cf
 
 
+sys.setrecursionlimit(2 ** 20)
+
 """
 La vista se encarga de la interacción con el usuario
 Presenta el menu de opciones y por cada seleccion
@@ -35,11 +37,19 @@ operación solicitada
 """
 
 def printMenu():
+    print("\n")
+    print("*******************************************")
     print("Bienvenido")
-    print("1- Cargar información en el catálogo")
-    print("2- ")
+    print("1- Inicializar Analizador")
+    print("2- Cargar informacion de aeropuertos y vuelos")
+    print("3- Calcular...")
+    print("0- Salir")
+    print("*******************************************")
 
-catalog = None
+"""
+'oneWayConnections': None, 'doubleConnections': None 
+
+"""
 
 """
 Menu principal
@@ -48,9 +58,28 @@ while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
-        print("Cargando información de los archivos ....")
+        print("Inicializando ....\n")
+        cont = controller.init()
 
     elif int(inputs[0]) == 2:
+        print("\nCargando información de aeropuertos y vuelos ....\n")
+        controller.loadServices(cont)
+        numedges1 = controller.totalConnections(cont['oneWayConnections'])
+        numvertex1 = controller.totalNodes(cont['oneWayConnections'])
+        numedges2 = controller.totalConnections(cont['doubleConnections'])
+        numvertex2 = controller.totalNodes(cont['doubleConnections'])
+        print('\nDatos grafo dirijido:\n')
+        print('Numero de vertices: ' + str(numvertex1))
+        print('Numero de arcos: ' + str(numedges1))
+        print('\nDatos grafo NOdirijido:\n')
+        print('Numero de vertices: ' + str(numvertex2))
+        print('Numero de arcos: ' + str(numedges2))
+        print('El limite de recursion actual: ' + str(sys.getrecursionlimit()))
+
+
+        pass
+
+    elif int(inputs[0]) == 3:
         pass
 
     else:
